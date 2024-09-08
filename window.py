@@ -6,7 +6,7 @@ from pyglet import gl
 from pyglet.window import key
 
 
-class Window():
+class Window:
     def __init__(self, width, height, loc_x, loc_y, num, color) -> None:
         """
         Initialize the Window class.
@@ -32,7 +32,9 @@ class Window():
         # Load the circular image into pyglet
         logo = pg.image.load(f"logos//logo_2.png")
 
-        self.window = pg.window.Window(width=width, height=height, caption="win "+str(num))
+        self.window = pg.window.Window(
+            width=width, height=height, caption="win " + str(num)
+        )
         self.window.set_location(loc_x, loc_y)
         self.window.set_icon(logo)
 
@@ -58,12 +60,12 @@ class Window():
         self.velocity = 50  # pixels per second
         self.moving = False
         self.move_times = 0
+
     def on_key_press(self, symbol, modifiers):
         if symbol == key.SPACE:
-            self.initialize_balls = not self.initialize_balls 
+            self.initialize_balls = not self.initialize_balls
         elif symbol == key.M:  # Press 'M' to move the window
             self.flag_move = True
-            
 
     def setup(self):
         """
@@ -73,8 +75,8 @@ class Window():
         for _ in range(self.num_of_balls):
             ball = Ball(self.width, self.height, color=self.color[0])
             self.balls = np.append(self.balls, ball)
-            
-    def move(self,dt):
+
+    def move(self, dt):
         # Move the window if it's not at the target location
         if self.moving:
             dx = self.target_x - self.current_x
@@ -93,7 +95,6 @@ class Window():
                 self.window.set_location(self.target_x, self.target_y)
                 self.moving = False
 
-        
     def update(self, dt):
         """
         Update method for the window class.
@@ -107,7 +108,7 @@ class Window():
         # Update balls
         self.balls_positions = np.array([])
 
-        if len(self.balls) > 0 : 
+        if len(self.balls) > 0:
             for ball in self.balls:
                 ball.show(self.batch)
                 ball.update()
@@ -122,9 +123,8 @@ class Window():
         """
         self.window.clear()
         r, g, b = self.color[1]
-        gl.glClearColor(r/255, g/255, b/255, 1.0)
+        gl.glClearColor(r / 255, g / 255, b / 255, 1.0)
         self.batch.draw()
-
 
     def run(self):
         """
